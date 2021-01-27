@@ -13,7 +13,7 @@ import ARKit
 class ViewController: UIViewController, ARSCNViewDelegate {
 
     @IBOutlet var sceneView: ARSCNView!
-    
+    var ballNode:SCNNode! = nil
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -24,10 +24,39 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         sceneView.showsStatistics = true
         
         // Create a new scene
-        let scene = SCNScene(named: "art.scnassets/ship.scn")!
-        
+        let scene = SCNScene(named: "art.scnassets/ball.dae")!
+            ballNode = scene.rootNode.childNode(withName: "ball", recursively: false)
+        let scaleFactor = 0.1
+        ballNode!.scale = SCNVector3(scaleFactor, scaleFactor, scaleFactor)
+        ballNode!.position = SCNVector3(0, 0, -1)
         // Set the scene to the view
         sceneView.scene = scene
+        
+        
+        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(handleTap))
+        self.sceneView.addGestureRecognizer(tapGestureRecognizer)
+        tapGestureRecognizer.cancelsTouchesInView = false
+        
+    }
+    
+    @objc func handleTap(sender:UITapGestureRecognizer) {
+        print("LOL")
+       guard let sceneView = sender.view as? ARSCNView else {return}
+       let touchLcoation = sender.location(in: sceneView)
+        print(touchLcoation.x)
+        print(touchLcoation.y)
+        print(ballNode.position.x)
+        print(ballNode.position.y)
+       let hitTestResult = self.sceneView.hitTest(touchLcoation, types: .existingPlane)
+        print(hitTestResult)
+        
+        if !hitTestResult.isEmpty {
+            // add something to scene
+            // e.g self.sceneView.scene.rootNode.addChildNode(yourNode!)
+            
+            
+        }
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
