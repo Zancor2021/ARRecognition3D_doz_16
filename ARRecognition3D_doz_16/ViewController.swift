@@ -23,14 +23,7 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         // Show statistics such as fps and timing information
         sceneView.showsStatistics = true
         
-        // Create a new scene
-        let scene = SCNScene(named: "art.scnassets/ball.dae")!
-            ballNode = scene.rootNode.childNode(withName: "ball", recursively: false)
-        let scaleFactor = 0.1
-        ballNode!.scale = SCNVector3(scaleFactor, scaleFactor, scaleFactor)
-        ballNode!.position = SCNVector3(0, 0, -1)
-        // Set the scene to the view
-        sceneView.scene = scene
+       configureLighting()
         
         
         let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(handleTap))
@@ -39,23 +32,20 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         
     }
     
+    func createBall(){
+        // Create a new scene
+               let scene = SCNScene(named: "art.scnassets/ball.dae")!
+                   ballNode = scene.rootNode.childNode(withName: "ball", recursively: false)
+               let scaleFactor = 0.1
+               ballNode!.scale = SCNVector3(scaleFactor, scaleFactor, scaleFactor)
+               ballNode!.position = SCNVector3(0, 0, -1)
+               // Set the scene to the view
+               sceneView.scene = scene
+    }
+    
     @objc func handleTap(sender:UITapGestureRecognizer) {
-        print("LOL")
-       guard let sceneView = sender.view as? ARSCNView else {return}
-       let touchLcoation = sender.location(in: sceneView)
-        print(touchLcoation.x)
-        print(touchLcoation.y)
-        print(ballNode.position.x)
-        print(ballNode.position.y)
-       let hitTestResult = self.sceneView.hitTest(touchLcoation, types: .existingPlane)
-        print(hitTestResult)
-        
-        if !hitTestResult.isEmpty {
-            // add something to scene
-            // e.g self.sceneView.scene.rootNode.addChildNode(yourNode!)
-            
-            
-        }
+        print("TOUCHED")
+        resetTrackingConfiguration()
         
     }
     
@@ -67,6 +57,9 @@ class ViewController: UIViewController, ARSCNViewDelegate {
 
         // Run the view's session
         sceneView.session.run(configuration)
+        
+        //createOverlayView(imageName:"putin")
+        
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -75,17 +68,83 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         // Pause the view's session
         sceneView.session.pause()
     }
-
-    // MARK: - ARSCNViewDelegate
-    
-/*
-    // Override to create and configure nodes for anchors added to the view's session.
-    func renderer(_ renderer: SCNSceneRenderer, nodeFor anchor: ARAnchor) -> SCNNode? {
-        let node = SCNNode()
-     
-        return node
+   //1. Starte Tracking
+   func resetTrackingConfiguration() {
+        //1 a. Configuration
+        guard let referenceImages = ARReferenceImage.referenceImages(inGroupNamed: "AR Resources", bundle: nil) else { return }
+        let configuration = ARWorldTrackingConfiguration()
+        configuration.detectionImages = referenceImages
+        let options: ARSession.RunOptions = [.resetTracking, .removeExistingAnchors]
+        //1 b. Start now ..
+        sceneView.session.run(configuration, options: options)
+        print("Move camera around to detect images")
+       
     }
-*/
+    
+    func renderer(_ renderer: SCNSceneRenderer, didAdd node: SCNNode, for anchor: ARAnchor) {
+        print("tracking")
+        DispatchQueue.main.async {
+            print("OOO")
+            guard let imageAnchor = anchor as? ARImageAnchor,
+                        let imageName = imageAnchor.referenceImage.name else { return }
+            
+            let planeNode = self.getPlaneNode(withReferenceImage: imageAnchor.referenceImage)
+          
+                        planeNode.eulerAngles.x = -.pi / 2
+                             
+                                node.addChildNode(planeNode)
+            if(imageName == "reset") {
+                  planeNode.opacity = 1
+             planeNode.geometry!.firstMaterial!.diffuse.contents = self.createOverlayView()
+            }
+            
+            if(imageName == "putin") {
+                       planeNode.geometry!.firstMaterial!.diffuse.contents = self.createOverlayImage()
+                      }
+            
+            print("Image detected: \"\(imageName)\"")
+        }
+    }
+    
+    func createOverlayView()->UIView{
+           var outputView:UIView =  UIView(frame: CGRect(x: 0,y: 0,width: 150,height: 150))
+           
+         
+                        outputView.backgroundColor = UIColor.red
+                         
+
+
+           
+           return outputView
+       }
+    
+    
+    
+    func createOverlayImage()->UIImageView{
+        var outputView:UIImageView! //= UIView(frame: CGRect(x: 0,y: 0,width: 150,height: 150))
+        
+      
+                        //outputView.backgroundColor = UIColor.clear
+                       let img = UIImage(named: "skull.png")
+
+                       outputView = UIImageView(frame: CGRect(x: 0,y: 0,width: 150,height: 150))
+                                    outputView.image = img
+
+        
+        return outputView
+    }
+    
+    func getPlaneNode(withReferenceImage image: ARReferenceImage) -> SCNNode {
+          let plane = SCNPlane(width: image.physicalSize.width,
+                               height: image.physicalSize.height)
+          let node = SCNNode(geometry: plane)
+          return node
+      }
+    
+    func configureLighting() {
+        sceneView.autoenablesDefaultLighting = true
+        sceneView.automaticallyUpdatesLighting = true
+    }
     
     func session(_ session: ARSession, didFailWithError error: Error) {
         // Present an error message to the user

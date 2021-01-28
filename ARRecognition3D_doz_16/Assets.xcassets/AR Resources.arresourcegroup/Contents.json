@@ -1,0 +1,23 @@
+{
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  },
+  "resources" : [
+    {
+      "filename" : "michi.arreferenceimage"
+    },
+    {
+      "filename" : "michi2.arreferenceimage"
+    },
+    {
+      "filename" : "putin.arreferenceimage"
+    },
+    {
+      "filename" : "reset.arreferenceimage"
+    },
+    {
+      "filename" : "wef_logo.arreferenceimage"
+    }
+  ]
+}
