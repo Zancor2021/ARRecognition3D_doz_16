@@ -14,6 +14,11 @@
 		D623FDBF25C1A8EE00EEA76C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D623FDBE25C1A8EE00EEA76C /* Assets.xcassets */; };
 		D623FDC225C1A8EE00EEA76C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D623FDC025C1A8EE00EEA76C /* LaunchScreen.storyboard */; };
 		D6A53C5E25C2CD5900444C06 /* skull.png in Resources */ = {isa = PBXBuildFile; fileRef = D6A53C5D25C2CD5900444C06 /* skull.png */; };
+		D6A53C6725C2E8E800444C06 /* FitnessGrandma_FaceAnimMap.png in Resources */ = {isa = PBXBuildFile; fileRef = D6A53C6225C2E8E800444C06 /* FitnessGrandma_FaceAnimMap.png */; };
+		D6A53C6825C2E8E800444C06 /* FitnessGrandma_spec.jpg in Resources */ = {isa = PBXBuildFile; fileRef = D6A53C6325C2E8E800444C06 /* FitnessGrandma_spec.jpg */; };
+		D6A53C6925C2E8E800444C06 /* FitnessGrandma_diffuse.jpg in Resources */ = {isa = PBXBuildFile; fileRef = D6A53C6425C2E8E800444C06 /* FitnessGrandma_diffuse.jpg */; };
+		D6A53C6A25C2E8E800444C06 /* FitnessGrandma_normal.jpg in Resources */ = {isa = PBXBuildFile; fileRef = D6A53C6525C2E8E800444C06 /* FitnessGrandma_normal.jpg */; };
+		D6A53C6B25C2E8E800444C06 /* dancingWoman.dae in Resources */ = {isa = PBXBuildFile; fileRef = D6A53C6625C2E8E800444C06 /* dancingWoman.dae */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +31,11 @@
 		D623FDC125C1A8EE00EEA76C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		D623FDC325C1A8EE00EEA76C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D6A53C5D25C2CD5900444C06 /* skull.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = skull.png; sourceTree = "<group>"; };
+		D6A53C6225C2E8E800444C06 /* FitnessGrandma_FaceAnimMap.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = FitnessGrandma_FaceAnimMap.png; sourceTree = "<group>"; };
+		D6A53C6325C2E8E800444C06 /* FitnessGrandma_spec.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = FitnessGrandma_spec.jpg; sourceTree = "<group>"; };
+		D6A53C6425C2E8E800444C06 /* FitnessGrandma_diffuse.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = FitnessGrandma_diffuse.jpg; sourceTree = "<group>"; };
+		D6A53C6525C2E8E800444C06 /* FitnessGrandma_normal.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = FitnessGrandma_normal.jpg; sourceTree = "<group>"; };
+		D6A53C6625C2E8E800444C06 /* dancingWoman.dae */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml.dae; path = dancingWoman.dae; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,6 +68,7 @@
 		D623FDB425C1A8EC00EEA76C /* ARRecognition3D_doz_16 */ = {
 			isa = PBXGroup;
 			children = (
+				D6A53C6025C2E8E800444C06 /* Bellydancing */,
 				D623FDB525C1A8EC00EEA76C /* AppDelegate.swift */,
 				D6A53C5F25C2CD7D00444C06 /* img */,
 				D623FDB725C1A8EC00EEA76C /* art.scnassets */,
@@ -76,6 +87,26 @@
 				D6A53C5D25C2CD5900444C06 /* skull.png */,
 			);
 			path = img;
+			sourceTree = "<group>";
+		};
+		D6A53C6025C2E8E800444C06 /* Bellydancing */ = {
+			isa = PBXGroup;
+			children = (
+				D6A53C6125C2E8E800444C06 /* textures */,
+				D6A53C6625C2E8E800444C06 /* dancingWoman.dae */,
+			);
+			path = Bellydancing;
+			sourceTree = "<group>";
+		};
+		D6A53C6125C2E8E800444C06 /* textures */ = {
+			isa = PBXGroup;
+			children = (
+				D6A53C6225C2E8E800444C06 /* FitnessGrandma_FaceAnimMap.png */,
+				D6A53C6325C2E8E800444C06 /* FitnessGrandma_spec.jpg */,
+				D6A53C6425C2E8E800444C06 /* FitnessGrandma_diffuse.jpg */,
+				D6A53C6525C2E8E800444C06 /* FitnessGrandma_normal.jpg */,
+			);
+			path = textures;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -136,9 +167,14 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D6A53C6B25C2E8E800444C06 /* dancingWoman.dae in Resources */,
+				D6A53C6725C2E8E800444C06 /* FitnessGrandma_FaceAnimMap.png in Resources */,
+				D6A53C6825C2E8E800444C06 /* FitnessGrandma_spec.jpg in Resources */,
 				D6A53C5E25C2CD5900444C06 /* skull.png in Resources */,
 				D623FDB825C1A8EC00EEA76C /* art.scnassets in Resources */,
+				D6A53C6925C2E8E800444C06 /* FitnessGrandma_diffuse.jpg in Resources */,
 				D623FDC225C1A8EE00EEA76C /* LaunchScreen.storyboard in Resources */,
+				D6A53C6A25C2E8E800444C06 /* FitnessGrandma_normal.jpg in Resources */,
 				D623FDBF25C1A8EE00EEA76C /* Assets.xcassets in Resources */,
 				D623FDBD25C1A8EC00EEA76C /* Main.storyboard in Resources */,
 			);

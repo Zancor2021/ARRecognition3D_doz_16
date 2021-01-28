@@ -26,28 +26,55 @@ class ViewController: UIViewController, ARSCNViewDelegate {
        configureLighting()
         
         
-        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(handleTap))
+        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(didTapScreen))
         self.sceneView.addGestureRecognizer(tapGestureRecognizer)
         tapGestureRecognizer.cancelsTouchesInView = false
         
     }
     
-    func createBall(){
-        // Create a new scene
-               let scene = SCNScene(named: "art.scnassets/ball.dae")!
-                   ballNode = scene.rootNode.childNode(withName: "ball", recursively: false)
-               let scaleFactor = 0.1
-               ballNode!.scale = SCNVector3(scaleFactor, scaleFactor, scaleFactor)
-               ballNode!.position = SCNVector3(0, 0, -1)
-               // Set the scene to the view
-               sceneView.scene = scene
-    }
-    
+       
     @objc func handleTap(sender:UITapGestureRecognizer) {
         print("TOUCHED")
         resetTrackingConfiguration()
         
     }
+    
+    @objc func didTapScreen(rec: UITapGestureRecognizer) {
+        print("lol")
+        if rec.state == .ended {
+            let location: CGPoint = rec.location(in: sceneView)
+            
+            let hits = self.sceneView.hitTest(location, options: nil)
+            if !hits.isEmpty{
+                let tappedNode = hits.first?.node
+                print(hits.count)
+                tappedNode?.removeFromParentNode()
+                print(tappedNode)
+                
+            }else{
+                resetTrackingConfiguration()
+            }
+        }
+    }
+    
+    func create3dObject(name:String)->SCNNode{
+        // Create a new scene
+        let scene = SCNScene(named: name)!
+        // This node will be parent of all the animation models
+        let node = SCNNode()
+        // Add all the child nodes to the parent node
+        for child in scene.rootNode.childNodes {
+            node.addChildNode(child)
+        }
+        // Set up some properties
+              
+        node.scale = SCNVector3(0.0009, 0.0009, 0.0009)
+        // Add the node to the scene
+        //sceneView.scene.rootNode.addChildNode(node)
+        return node
+    }
+    
+    
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -88,9 +115,21 @@ class ViewController: UIViewController, ARSCNViewDelegate {
             guard let imageAnchor = anchor as? ARImageAnchor,
                         let imageName = imageAnchor.referenceImage.name else { return }
             
+            
+            
             let planeNode = self.getPlaneNode(withReferenceImage: imageAnchor.referenceImage)
-          
-                        planeNode.eulerAngles.x = -.pi / 2
+            
+                          planeNode.eulerAngles.x = -.pi / 2
+            
+                          
+            if(imageName == "michi"){
+               node.addChildNode(self.create3dObject(name:"dancingWoman.dae"))
+                
+            }else{
+                
+            
+            
+            
                              
                                 node.addChildNode(planeNode)
             if(imageName == "reset") {
@@ -101,7 +140,7 @@ class ViewController: UIViewController, ARSCNViewDelegate {
             if(imageName == "putin") {
                        planeNode.geometry!.firstMaterial!.diffuse.contents = self.createOverlayImage()
                       }
-            
+            }
             print("Image detected: \"\(imageName)\"")
         }
     }
